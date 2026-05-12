@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bbbBookProg</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <h2>Welcome to bbbBookProg</h2>
+        <p>Sign in to securely sync your books across devices.</p>
+        <button id="login-btn">Sign in with Google</button>
+      </div>
+    </div>
+
+    <div id="app-content" style="display: none;">
+      <header>
+        <div>
+          <h1 id="greeting">bbbBookProg</h1>
+          <p class="subtitle">minimalistic reading tracker</p>
+        </div>
+        <div class="actions">
+          <button id="export-btn">Backup</button>
+          <button id="import-btn-ui">Restore</button>
+          <input type="file" id="import-file" accept=".json" style="display: none;" />
+          <button id="logout-btn">Log out</button>
+        </div>
+      </header>
+
+      <main>
+        <div class="card add-book-section">
+          <h3>Add a New Book</h3>
+          <div class="form-group">
+            <input type="text" id="new-title" placeholder="Title (e.g., Dune)" />
+            <input type="text" id="new-emoji" placeholder="Emoji (e.g., 🏜️)" style="max-width: 80px;" />
+            <select id="new-type">
+              <option value="paperback">Paperback</option>
+              <option value="audio-single">Audiobook (Single File)</option>
+              <option value="audio-chapter">Audiobook (Chapters TXT)</option>
+            </select>
+          </div>
+          
+          <div id="dynamic-inputs" class="form-group">
+            <input type="number" id="new-total-pages" placeholder="Total Pages" />
+          </div>
+
+          <button id="add-book-btn">Add Book</button>
+        </div>
+
+        <div id="book-list"></div>
+      </main>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
+

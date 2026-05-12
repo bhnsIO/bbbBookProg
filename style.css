@@ -1,0 +1,228 @@
+:root {
+  --bg: #0a0a0a;
+  --fg: #ededed;
+  --fg-muted: #a0a0a0;
+  --accent: #222;
+  --hover: #1a1a1a;
+  --border: #333;
+  --highlight: #cfcfcf;
+  --progress-bg: #222;
+  --progress-fill: #ededed;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+#app-content {
+  width: 100%;
+  max-width: 650px;
+  padding: 2rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+p.subtitle {
+  margin: 0.25rem 0 0 0;
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Base Elements */
+input, select, button {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--highlight);
+}
+
+button {
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  background: var(--accent);
+}
+
+button:hover {
+  background: var(--border);
+}
+
+.card {
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 10, 10, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background: var(--bg);
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal-content p {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content input {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.modal-content button {
+  width: 100%;
+}
+
+/* Book List Items */
+.book-item {
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background: var(--bg);
+}
+
+.book-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.book-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.book-emoji {
+  margin-right: 0.5rem;
+}
+
+.progress-container {
+  width: 100%;
+  height: 6px;
+  background: var(--progress-bg);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--progress-fill);
+  transition: width 0.3s ease;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+  margin-bottom: 1rem;
+}
+
+.update-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.update-controls input {
+  width: 100px;
+}
+
+.chapter-list {
+  margin-top: 1rem;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.chapter-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-muted);
+}
+
+.chapter-item:last-child {
+  border-bottom: none;
+}
+
+.chapter-item.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.chapter-item button {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+}

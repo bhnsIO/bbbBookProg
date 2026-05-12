@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function incoming() {
+      return request.resource.data;
+    }
+    
+    function existing() {
+      return resource.data;
+    }
+    
+    function isOwner() {
+      return isSignedIn() && existing().userId == request.auth.uid;
+    }
+    
+    function isValidBook(data) {
+      let isBaseValid = data.title is string && data.title.size() <= 200 &&
+             data.type is string && data.type in ["paperback", "audio-single", "audio-chapter"] &&
+             data.userId == request.auth.uid;
+             
+      let hasEmoji = !("emoji" in data) || (data.emoji is string && data.emoji.size() <= 20);
+      let isPaperbackDataValid = data.type != 'paperback' || 
+          (
+            (!("progress" in data) || data.progress is number) &&
+            (!("total" in data) || data.total is number)
+          );
+      let isAudioSingleDataValid = data.type != 'audio-single' ||
+          (
+            (!("progressSecs" in data) || data.progressSecs is number) &&
+            (!("totalSecs" in data) || data.totalSecs is number)
+          );
+      let isAudioChapterDataValid = data.type != 'audio-chapter' ||
+          (
+            !("chapters" in data) || (data.chapters is list && data.chapters.size() <= 500)
+          );
+          
+      return isBaseValid && hasEmoji && isPaperbackDataValid && isAudioSingleDataValid && isAudioChapterDataValid;
+    }
+
+    match /books/{bookId} {
+      allow read: if isSignedIn() && existing().userId == request.auth.uid;
+      
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      allow create: if isSignedIn() 
+        && isValidId(bookId)
+        && isValidBook(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && incoming().keys().hasOnly(['title', 'emoji', 'type', 'userId', 'progress', 'total', 'progressSecs', 'totalSecs', 'chapters', 'createdAt', 'updatedAt']);
+        
+      allow update: if isOwner() 
+        && isValidBook(incoming())
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'emoji', 'progress', 'total', 'progressSecs', 'totalSecs', 'chapters', 'updatedAt']);
+        
+      allow delete: if isOwner();
+    }
+  }
+}

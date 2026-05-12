@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "Book": {
+      "title": "Book",
+      "description": "Represents a tracked book (paperback or audio)",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the book" },
+        "emoji": { "type": "string", "description": "Emoji representing the book" },
+        "type": { "type": "string", "enum": ["paperback", "audio-single", "audio-chapter"] },
+        "userId": { "type": "string", "description": "User ID of the owner" },
+        "progress": { "type": "number", "description": "Current pages read (paperback)" },
+        "total": { "type": "number", "description": "Total pages (paperback)" },
+        "progressSecs": { "type": "number", "description": "Current seconds listened (audio-single)" },
+        "totalSecs": { "type": "number", "description": "Total seconds (audio-single)" },
+        "chapters": {
+          "type": "array",
+          "description": "List of chapters (audio-chapter)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "duration": { "type": "string" },
+              "completed": { "type": "boolean" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "type", "userId", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/books/{bookId}": {
+      "schema": { "$ref": "#/entities/Book" },
+      "description": "Books tracked by users"
+    }
+  }
+}
